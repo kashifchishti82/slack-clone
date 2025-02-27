@@ -1,0 +1,8 @@
+type Workspace {
+    id: ID!
+    name: String!
+    description: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    channels: [Channel!]!
+}

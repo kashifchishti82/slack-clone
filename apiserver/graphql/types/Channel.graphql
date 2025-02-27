@@ -1,0 +1,14 @@
+type Channel {
+    id: ID!
+    name: String!
+    slug: String!
+    description: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    image: String!
+    is_private: Boolean!
+    is_archived: Boolean!
+    is_default: Boolean!
+    is_read_only: Boolean!
+    members: [Member!]!
+}

@@ -1,0 +1,10 @@
+type Response {
+  success: Boolean
+  message: String
+  errors: [ErrorDetail]
+}
+
+type ErrorDetail {
+    field: String!
+    message: String!
+}

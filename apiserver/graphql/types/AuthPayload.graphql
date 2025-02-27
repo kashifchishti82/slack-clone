@@ -1,0 +1,5 @@
+type AuthPayload {
+    response: Response!
+    token: String
+    user: User
+}

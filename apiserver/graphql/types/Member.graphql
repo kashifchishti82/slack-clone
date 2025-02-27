@@ -1,0 +1,5 @@
+type Member {
+    id: ID!
+    user_id: ID!
+    chat_id: ID!
+}
