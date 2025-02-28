@@ -1,8 +1,10 @@
 type Workspace {
     id: ID!
     name: String!
-    description: String!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-    channels: [Channel!]!
+    description: String
+    slug: String!
+    created_at: String!
+    updated_at: String!
+    channels: [Channel!]! @hasMany
+    owner: User! @belongsTo
 }

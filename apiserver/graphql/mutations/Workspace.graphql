@@ -1,0 +1,4 @@
+extend type Mutation {
+    createWorkspace(name: String!, description: String!): Workspace! @guard @field(resolver: "App\\GraphQL\\Mutations\\CreateWorkspaceMutation")
+    createChannel(name: String!, workspaceId: ID!): Channel! @guard @field(resolver: "App\\GraphQL\\Mutations\\CreateChannelMutation")
+}

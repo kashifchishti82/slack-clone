@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->foreignIdFor(\App\Models\Workspace::class);
+            $table->foreignUuid('workspace_id')->constrained('workspaces')->onDelete('cascade');
             $table->string('slug')->unique();
             $table->string('image')->nullable();
             $table->boolean('is_private')->default(false);

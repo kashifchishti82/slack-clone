@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('shared_channels', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignIdFor(Workspace::class);
             $table->string('target_workspace_id');
             $table->string('origin_workspace_id');

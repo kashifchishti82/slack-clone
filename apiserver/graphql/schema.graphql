@@ -1,30 +1,19 @@
 "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
-#import types/Response.graphql
-#import types/User.graphql
-#import types/AuthPayload.graphql
 
-"Indicates what fields are available at the top level of a query operation."
-type Query {
-    "Find a single user by an identifying attribute."
-    user(
-      "Search by primary key."
-      id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
+"Import all types defined in types directory."
+#import types/*.graphql
 
-      "Search by email address."
-      email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
-    ): User @find
+"Import all queries defined in queries directory."
+#import queries/*.graphql
 
-    "List multiple users."
-    users(
-      "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
-      name: String @where(operator: "like")
-    ): [User!]! @paginate(defaultCount: 10)
-}
+"Import all mutations defined in mutations directory."
+#import mutations/*.graphql
 
 
-type Mutation {
-    login(email: String!, password: String!): AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\LoginMutation")
-    register(name: String!, email: String!, password: String!, password_confirmation: String!) : AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\RegisterMutation")
-}
+
+
+
+
+

@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workspaces', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('slug')->unique(); // e.g., slack-clone
-            $table->foreignUuid('user_id')->nullable()->default(null)->constrained('users')->onDelete('cascade');
+        Schema::create('workspace_user', function (Blueprint $table) {
+            $table->id();
+            $table->foreignUuid('workspace_id')->constrained("workspaces")->onDelete('cascade');
+            $table->foreignUuid('user_id')->constrained("users")->onDelete('cascade');
+            $table->enum('role', \App\Enum\UserWorkspaceRole::toArray())->default('member');
             $table->timestamps();
         });
     }

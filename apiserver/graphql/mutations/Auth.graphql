@@ -1,0 +1,4 @@
+type Mutation {
+    login(email: String!, password: String!): AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\LoginMutation")
+    register(name: String!, email: String!, password: String!, password_confirmation: String!) : AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\RegisterMutation")
+}

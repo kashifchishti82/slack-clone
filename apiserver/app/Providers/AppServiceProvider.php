@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\GraphQL\Resolvers\UserResolver;
+use App\Interfaces\IChannelRepository;
 use App\Interfaces\IUserRepository;
+use App\Interfaces\IWorkSpaceRepository;
+use App\Repositories\ChannelRepository;
+use App\Repositories\WorkSpaceRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
 
@@ -15,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(IUserRepository::class, UserResolver::class);
+        $this->app->bind(IWorkSpaceRepository::class, WorkSpaceRepository::class);
+        $this->app->bind(IChannelRepository::class, ChannelRepository::class);
     }
 
     /**
@@ -22,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Response::macro('graphql', function ($message, $data = null, $errors = []) {
+        Response::macro('graphql', function (String $message, $data = null, $errors = []) {
             if (!empty($errors) && is_a($errors, 'Illuminate\Support\MessageBag')) {
                 $errors = (function ($errors) {
                     $typeFix = [];
@@ -40,14 +46,19 @@ class AppServiceProvider extends ServiceProvider
                     $errors
                 );
             }
-            $response = array_merge([
-                'response' => [
-                    'success' => empty($errors) ? true : false,
-                    'message' => $message,
-                    'errors' => $errors ?: null,
-                ],
+            if(!empty($data) && is_object($data)) {
+                $response = $data;
+            }else{
+                $response = array_merge([
+                    'response' => [
+                        'success' => empty($errors) ? true : false,
+                        'message' => $message,
+                        'errors' => $errors ?: null,
+                    ],
 
-            ], $data ?: []);
+                ], $data ?: []);
+            }
+
             return $response;
         });
     }
