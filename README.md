@@ -2,10 +2,10 @@
 
 Development Path
 
-* RND to improve upload application structure with keeping SOLID as guiding principle
+* RND to improve Laravel application structure with keeping SOLID as guiding principle
 * Integrate Login And Registration API in React Application
 * Add Queries to Get List of Workspaces
-* Add Mutation to Add new Workspace
+* Add Mutation to add new Workspace
 * Add Mutation to add new Channel in Workspace
 * Add Mutation to send Channel Invite
 * Add Mutation to send Message
