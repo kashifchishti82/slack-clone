@@ -10,7 +10,7 @@ class Workspace extends Model
 {
     use HasUuids, SluggableTrait;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'icon'];
 
     public function users()
     {

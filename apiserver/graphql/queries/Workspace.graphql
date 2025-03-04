@@ -1,0 +1,5 @@
+extend type Query {
+    workspaces: [Workspace!]! @all
+    workspace(id: ID!): Workspace @find
+    WorkspaceChannels(workspace_id: ID!): [Channel!]! @paginate
+}
