@@ -10,8 +10,8 @@ const GET_WORKSPACES = gql`
 `;
 
 const GET_CHANNELS = gql`
-    query GetChannels($workspaceId: ID!) {
-        channels(workspace_id: $workspaceId) {
+    query GetChannels($workspaceId: ID!, $page: Int!) {
+        WorkspaceChannels(workspace_id: $workspaceId, page:$page) {
             data {
                 id
                 name

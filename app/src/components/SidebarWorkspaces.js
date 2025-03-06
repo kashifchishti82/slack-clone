@@ -1,9 +1,8 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {Tooltip, TooltipContent, TooltipTrigger, TooltipProvider} from "@radix-ui/react-tooltip";
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from "framer-motion";
 import {useQuery} from '@apollo/client';
-import {useState} from "react";
 import {GET_WORKSPACES} from '@/chat-server/quries/WorkspaceQuery';
 import {setWorkspaces, setActiveWorkspace} from '@/store/workspaceSlice';
 
