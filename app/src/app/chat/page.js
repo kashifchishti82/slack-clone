@@ -7,8 +7,6 @@ import ChatSidebar from "@/components/ChatSidebar";
 import ChatMain from "@/components/MainChat";
 
 export default function Page() {
-    // [messages, setMessages] = useState([])
-    // const { loading, error, channels } = useQuery(GET_MESSAGES)
 
     return (
         <div className="flex h-screen bg-gray-100">
