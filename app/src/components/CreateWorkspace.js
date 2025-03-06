@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const CreateWorkspaceModal = ({ isOpen, onClose }) => {
     const [workspaceName, setWorkspaceName] = useState('');
     const [channelName, setChannelName] = useState('');
@@ -8,6 +9,7 @@ const CreateWorkspaceModal = ({ isOpen, onClose }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         // Handle channel and workspace creation logic here
         console.log({ workspaceName, channelName, description, isPrivate });
         onClose(); // Close modal after submission

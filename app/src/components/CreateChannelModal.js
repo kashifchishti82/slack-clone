@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {useSelector} from "react-redux";
+import {useMutation} from "@apollo/client";
+import {CREATE_CHANNEL_MUTATION} from "@/chat-server/mutations/workspace";
 
-const CreateChannelModal = ({ isOpen, onClose }) => {
+const CreateChannelModal = ({isOpen, onClose}) => {
     const [workspaceName, setWorkspaceName] = useState('');
     const [channelName, setChannelName] = useState('');
     const [description, setDescription] = useState('');
     const [isPrivate, setIsPrivate] = useState(false);
     const activeWorkspace = useSelector((state) => state.workspace.activeWorkspace);
+    const [createChannel, {loading, error}] = useMutation(CREATE_CHANNEL_MUTATION)
     const handleSubmit = (e) => {
-        if(activeWorkspace){
+        if (activeWorkspace) {
             e.preventDefault();
+            createChannel({
+                variables: {
+                    workspaceId: activeWorkspace.id,
+                    name: channelName,
+                    description: description,
+                    is_private: isPrivate
+                }
+            })
             // Handle channel and workspace creation logic here
-            console.log({ workspaceName, channelName, description, isPrivate });
+            console.log({workspaceName, channelName, description, isPrivate});
         }
 
         onClose(); // Close modal after submission
@@ -25,8 +36,9 @@ const CreateChannelModal = ({ isOpen, onClose }) => {
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-semibold text-gray-800">Create Channel</h2>
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M6 18L18 6M6 6l12 12" />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
@@ -34,7 +46,8 @@ const CreateChannelModal = ({ isOpen, onClose }) => {
                 <form onSubmit={handleSubmit}>
                     {/* Channel Name */}
                     <div className="mb-4">
-                        <label htmlFor="channelName" className="block text-sm font-medium text-gray-700">Channel Name</label>
+                        <label htmlFor="channelName" className="block text-sm font-medium text-gray-700">Channel
+                            Name</label>
                         <input
                             type="text"
                             id="channelName"
@@ -48,7 +61,8 @@ const CreateChannelModal = ({ isOpen, onClose }) => {
 
                     {/* Description */}
                     <div className="mb-4">
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+                        <label htmlFor="description"
+                               className="block text-sm font-medium text-gray-700">Description</label>
                         <textarea
                             id="description"
                             value={description}
