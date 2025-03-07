@@ -4,6 +4,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {GET_CHANNELS} from "@/chat-server/quries/WorkspaceQuery";
 import {motion} from "framer-motion";
 import CreateChannelModal from "@/components/CreateChannelModal";
+import {setChannels, setActiveChannel} from "@/store/channelSlice";
+
 export default function SidebarChannel() {
     const dispatch = useDispatch();
     const activeWorkspace = useSelector((state) => state.workspace.activeWorkspace);
@@ -18,7 +20,11 @@ export default function SidebarChannel() {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
+    useEffect(() => {
+        if (data) {
+            dispatch(setChannels(data.WorkspaceChannels.data))
+        }
+    }, [data])
     useEffect(() => {
         if (activeWorkspace) {
             getChannels({variables: {workspaceId: activeWorkspace.id, page: 1}})
@@ -40,7 +46,7 @@ export default function SidebarChannel() {
                 <li className="py-2 px-3 hover:bg-gray-700 rounded cursor-pointer">User 1</li>
                 <li className="py-2 px-3 hover:bg-gray-700 rounded cursor-pointer">User 2</li>
             </ul>
-            <CreateChannelModal isOpen={isModalOpen} onClose={closeModal} />
+            <CreateChannelModal isOpen={isModalOpen} onClose={closeModal}/>
         </div>
     )
 }

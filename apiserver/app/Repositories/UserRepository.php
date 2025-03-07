@@ -36,20 +36,6 @@ class UserRepository implements IUserRepository
 
     public function register($name, $email, $password, $confirm_password)
     {
-        $validator = Validator::make([
-            'name' => $name,
-            'email' => $email,
-            'password' => $password,
-            'password_confirmation' => $password
-        ], [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->graphql('Validation Error', [], $validator->errors());
-        }
         $user = User::create([
             'name' => $name,
             'email' => $email,

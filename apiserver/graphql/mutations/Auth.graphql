@@ -1,4 +1,12 @@
 type Mutation {
-    login(email: String!, password: String!): AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\LoginMutation")
-    register(name: String!, email: String!, password: String!, password_confirmation: String!) : AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\RegisterMutation")
+    login(email: String! @rules(apply: ["required", "email"]), password: String! @rules(apply: ["required","min:8"])): AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\LoginMutation")
+
+
+    # Mutation to register a new User
+    register(
+        name: String! @rules(apply: ["required", "string", "max:255"]),
+        email: String! @rules(apply: ["required", "email", "max:255", "unique:users,email"]),
+        password: String! @rules(apply: ["required", "min:8", "confirmed:password_confirmation"]),
+        password_confirmation: String! @rules(apply: ["required", "min:8"])
+    ) : AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\RegisterMutation")
 }
