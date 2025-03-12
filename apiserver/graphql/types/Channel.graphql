@@ -2,13 +2,14 @@ type Channel {
     id: ID!
     name: String!
     slug: String!
-    description: String!
+    description: String
     created_at: DateTime!
     updated_at: DateTime!
-    image: String!
+    image: String
     is_private: Boolean!
-    is_archived: Boolean!
-    is_default: Boolean!
-    is_read_only: Boolean!
+    is_archived: Boolean
+    is_default: Boolean
+    is_read_only: Boolean
+    workspace: Workspace!
     members: [Member!]!
 }

@@ -1,0 +1,54 @@
+services:
+ apache:
+  container_name: apache
+  build: ./docker/apache/
+  ports:
+   - "80:80"
+  volumes:
+   - ./apiserver/:/var/www/html/
+  networks:
+    - development 
+
+ php84:
+  container_name: php84
+  build: ./docker/php8.4/
+  volumes:
+  - ./apiserver/:/var/www/html/
+  networks:
+  - development    
+
+ mysqldb:
+  container_name: mysqldb
+  image: mysql:8.4.1
+  restart: always
+  environment: 
+   MYSQL_DATABASE: 'slack'
+   MYSQL_USER: 'slack'
+   MYSQL_PASSWORD: 'slack'
+   MYSQL_ROOT_PASSWORD: '1q2w3e4r5t'
+  ports:
+   - "3306:3306"
+  volumes:
+   - ./docker/mysql/mysql/:/var/lib/mysql
+   - ./docker/mysql/conf/:/etc/mysql
+  networks:
+    - development  
+
+ phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysqldb
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8081:80"  # Map phpMyAdmin to host port 8081
+    depends_on:
+      - mysqldb
+    networks:
+    - development
+
+networks:
+  development:
+    name: slack_clone_development

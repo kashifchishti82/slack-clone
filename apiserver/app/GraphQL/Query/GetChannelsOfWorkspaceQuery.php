@@ -1,12 +1,10 @@
 <?php
 
-namespace App\GraphQL\Mutations;
+namespace App\GraphQL\Query;
 
 use App\Interfaces\IChannelRepository;
-use App\Models\Channel;
 
-class CreateChannelMutation
-{
+class GetChannelsOfWorkspaceQuery{
     public function __construct(IChannelRepository $channelRepository)
     {
         $this->repository = $channelRepository;
@@ -14,6 +12,6 @@ class CreateChannelMutation
 
     public function __invoke($_, array $args)
     {
-        return $this->repository->createChannel($args);
+        return $this->repository->getChannelsOfWorkspace($args['workspace_id']);
     }
 }
