@@ -3,9 +3,9 @@ services:
   container_name: slack_clone_apache
   build: ./docker/apache/
   ports:
-   - "80:80"
+    - "80:80"
   volumes:
-   - ./apiserver/:/var/www/html/
+    - ./apiserver/:/var/www/html/
   networks:
     - development 
 
@@ -13,9 +13,9 @@ services:
   container_name: slack_php84
   build: ./docker/php8.4/
   volumes:
-  - ./apiserver/:/var/www/html/
+    - ./apiserver/:/var/www/html/
   networks:
-  - development    
+    - development
 
  mysqldb:
   container_name: slack_clone_mysqldb
@@ -27,10 +27,10 @@ services:
    MYSQL_PASSWORD: 'slack'
    MYSQL_ROOT_PASSWORD: '1q2w3e4r5t'
   ports:
-   - "3306:3306"
+    - "3306:3306"
   volumes:
-   - ./docker/mysql/mysql/:/var/lib/mysql
-   - ./docker/mysql/conf/:/etc/mysql
+    - ./docker/mysql/mysql/:/var/lib/mysql
+    - ./docker/mysql/conf/:/etc/mysql
   networks:
     - development  
 
@@ -47,7 +47,7 @@ services:
     depends_on:
       - mysqldb
     networks:
-    - development
+      - development
 
  rabbitmq:
      image: rabbitmq:3-management
@@ -59,6 +59,8 @@ services:
      environment:
        RABBITMQ_DEFAULT_USER: root
        RABBITMQ_DEFAULT_PASS: 1q2w3e4r5t
+     networks:
+       - development
 
 networks:
   development:

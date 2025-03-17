@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\RabitmqWorkspaceExchange;
 use App\Traits\SluggableTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Workspace extends Model
 {
-    use HasUuids, SluggableTrait;
+    use HasUuids, SluggableTrait, RabitmqWorkspaceExchange;
 
     protected $fillable = ['name', 'description', 'icon'];
 

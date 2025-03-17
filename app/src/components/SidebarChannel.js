@@ -36,7 +36,7 @@ export default function SidebarChannel() {
             <h2 className="text-lg font-bold">Channels</h2>
             <ul className="mt-2 space-y-1">
                 {channels && channels.map((channel) => (
-                    <li className="py-2 px-3 bg-gray-700 rounded cursor-pointer">{channel.name}</li>
+                    <li className="py-2 px-3 bg-gray-700 rounded cursor-pointer" kay={channel.id}>{channel.name}</li>
                 ))}
 
                 <li className="py-2 px-3 hover:bg-gray-700 rounded cursor-pointer" onClick={openModal}>Add Channel</li>

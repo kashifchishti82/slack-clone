@@ -10,8 +10,8 @@ use App\Interfaces\IWorkSpaceRepository;
 use App\Repositories\ChannelRepository;
 use App\Repositories\ChatRepository;
 use App\Repositories\WorkSpaceRepository;
+use App\Services\RabbitMQService;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Response;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,5 +31,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->app->singleton(RabbitMQService::class, function () {
+            return RabbitMQService::getInstance();
+        });
     }
 }
