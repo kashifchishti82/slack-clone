@@ -10,7 +10,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [loginUser, {data, loading, error}] = useMutation(LOGIN_MUTATION, {
         onCompleted: (data) => {
-            if (data && data.login.response.success == true && data.login.token) {
+            if (data &&  data.login.token) {
                 const token = data.login.token; // get the token from the response
                 Cookies.set('token', token, { expires: 7, path: '' }) // save the token in the local storage
                 Cookies.set('user', JSON.stringify(data.login.user), { expires: 7, path: '' })

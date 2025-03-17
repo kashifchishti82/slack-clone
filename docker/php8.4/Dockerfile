@@ -1,13 +1,20 @@
-FROM php:8.4-fpm-alpine
+FROM php:8.4-fpm-bullseye
 
 
 # Install additional PHP extensions (if needed)
-RUN apk add --no-cache --virtual .build-deps gcc zlib-dev libpng-dev libjpeg-turbo-dev freetype-dev libc-dev make autoconf \
-    && apk add --no-cache libxml2-dev openssl curl bash \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libxml2-dev \
+    libssl-dev \
+    curl \
+    bash \
+    unzip \
+    git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd \
-    && docker-php-ext-install pdo pdo_mysql \
-    && apk del .build-deps
+    && docker-php-ext-install gd pdo pdo_mysql opcache \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
