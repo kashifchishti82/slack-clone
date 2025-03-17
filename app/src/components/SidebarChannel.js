@@ -22,7 +22,8 @@ export default function SidebarChannel() {
     };
     useEffect(() => {
         if (data) {
-            dispatch(setChannels(data.WorkspaceChannels.data))
+            console.log(data)
+            dispatch(setChannels(data.WorkspaceChannels))
         }
     }, [data])
     useEffect(() => {

@@ -16,19 +16,6 @@ class ChannelRepository implements IChannelRepository
 
     public function createChannel(array $args)
     {
-        $validator = Validator::make(
-            $args,
-            [
-                'name' => ['required', 'string', 'max:255'],
-                'description' => ['required', 'string', 'max:255'],
-                'is_private' => ['required', 'boolean'],
-                'workspaceId' => ['required']
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->graphql("Validation Error", [], $validator->errors());
-        }
         $name = Arr::get($args, "name");
         $description = Arr::get($args, "description");
         $is_private = Arr::get($args, "is_private");
@@ -42,7 +29,7 @@ class ChannelRepository implements IChannelRepository
             'description' => $description,
             'is_private' => $is_private
         ]);
-        return response()->graphql("Channel created successfully", $channel, []);
+        return $channel;
     }
 
     public function getChannelsOfWorkspace($workspace_id)
@@ -52,6 +39,6 @@ class ChannelRepository implements IChannelRepository
             return response()->graphql("Workspace not found", [], []);
         }
         $channels = $workspace->channels;
-        return response()->graphql("Channels of workspace", $channels, []);
+        return $channels;
     }
 }

@@ -12,10 +12,22 @@ const GET_WORKSPACES = gql`
 const GET_CHANNELS = gql`
     query GetChannels($workspaceId: ID!) {
         WorkspaceChannels(workspace_id: $workspaceId) {
-            data {
+            created_at
+            id
+            image
+            is_archived
+            is_private
+            members {
+                chat_id
                 id
-                name
+                user_id
             }
+            name
+            slug
+            updated_at
+            is_read_only
+            is_default
+            description
         }
     }
 `;
