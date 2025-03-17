@@ -1,6 +1,6 @@
 services:
  apache:
-  container_name: apache
+  container_name: slack_clone_apache
   build: ./docker/apache/
   ports:
    - "80:80"
@@ -10,7 +10,7 @@ services:
     - development 
 
  php84:
-  container_name: php84
+  container_name: slack_php84
   build: ./docker/php8.4/
   volumes:
   - ./apiserver/:/var/www/html/
@@ -18,7 +18,7 @@ services:
   - development    
 
  mysqldb:
-  container_name: mysqldb
+  container_name: slack_clone_mysqldb
   image: mysql:8.4.1
   restart: always
   environment: 
@@ -36,7 +36,7 @@ services:
 
  phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
+    container_name: slack_phpmyadmin
     restart: always
     environment:
       PMA_HOST: mysqldb
@@ -48,6 +48,17 @@ services:
       - mysqldb
     networks:
     - development
+
+ rabbitmq:
+     image: rabbitmq:3-management
+     container_name: rabbitmq
+     restart: always
+     ports:
+       - "5672:5672"
+       - "15672:15672"
+     environment:
+       RABBITMQ_DEFAULT_USER: root
+       RABBITMQ_DEFAULT_PASS: 1q2w3e4r5t
 
 networks:
   development:
