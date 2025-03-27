@@ -33,7 +33,7 @@ trait RabitmqWorkspaceExchange
         ];
         foreach ($queues as $queue => $routingkey) {
             $queue = sprintf('workspace.%s.%s', $this->id, $queue);
-            $rabitmqService->createQueue($queue, false, true, false, false);
+            $rabitmqService->createQueue($queue);
             $rabitmqService->bindQueueToExchange($queue, $exchange, $routingkey);
         }
     }

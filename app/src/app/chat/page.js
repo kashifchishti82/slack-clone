@@ -1,22 +1,30 @@
 "use client"
-import {useState, useEffect} from "react"
+
+import  {useEffect} from "react";
 import {useQuery} from "@apollo/client";
 import ApolloProviderWrapper from "@/components/ApolloProviderWrapper";
-import {GET_WORKSPACES, GET_CHANNELS} from "@/chat-server/quries/WorkspaceQuery";
 import ChatSidebar from "@/components/ChatSidebar";
 import ChatMain from "@/components/MainChat";
+import {useDispatch} from "react-redux";
+import {setUser} from "@/store/userSlice";
+import {GET_AUTH_USER} from "@/chat-server/quries/User";
 
 export default function Page() {
-
+    const dispatch = useDispatch();
+    const {data} = useQuery(GET_AUTH_USER);
+    useEffect(() => {
+        if (data) {
+            console.log(data)
+            dispatch(setUser(data.me));
+        }
+    }, [data])
     return (
         <div className="flex h-screen bg-gray-100">
-            <ApolloProviderWrapper>
                 {/* Sidebar */}
                 <ChatSidebar/>
 
                 {/* Main Chat Area */}
                 <ChatMain/>
-            </ApolloProviderWrapper>
         </div>
 
 

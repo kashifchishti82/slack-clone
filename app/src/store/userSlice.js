@@ -26,8 +26,17 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.error = action.payload;
     },
+    setUser: (state, action) => {
+      console.log('action', action)
+      state.user = action.payload;
+    }
   },
 });
 
-export const { fetchUser, fetchUserSuccess, fetchUserFailure } = userSlice.actions;
+export const {
+  fetchUser,
+  fetchUserSuccess,
+  fetchUserFailure,
+  setUser
+} = userSlice.actions;
 export default userSlice.reducer;

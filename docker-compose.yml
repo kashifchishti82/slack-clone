@@ -13,7 +13,7 @@ services:
   container_name: slack_php84
   build: ./docker/php8.4/
   volumes:
-    - ./apiserver/:/var/www/html/
+    - ./apiserver/:/var/www/html/:delegated
   networks:
     - development
 
@@ -50,15 +50,33 @@ services:
       - development
 
  rabbitmq:
-     image: rabbitmq:3-management
+     build: ./docker/rabbitmq/
      container_name: rabbitmq
      restart: always
      ports:
        - "5672:5672"
        - "15672:15672"
+       - "61613:61613"
+       - "15680:15680"
      environment:
        RABBITMQ_DEFAULT_USER: root
        RABBITMQ_DEFAULT_PASS: 1q2w3e4r5t
+
+     volumes:
+         - ./docker/rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/conf.d/rabbitmq.conf
+     networks:
+       - development
+
+
+ slack_redis_server:
+     container_name: slack_redis_server
+     image: redis:latest
+     restart: always
+     ports:
+       - '6379:6379'
+     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+     volumes:
+       - ./docker/cache:/data
      networks:
        - development
 

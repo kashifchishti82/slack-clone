@@ -31,15 +31,25 @@ export default function SidebarChannel() {
             getChannels({variables: {workspaceId: activeWorkspace.id, page: 1}})
         }
     }, [activeWorkspace])
+
+    const handleChannelClick = (channel) => {
+        dispatch(setActiveChannel(channel))
+    }
+
     return (
         <div className="w-60 bg-gray-800 text-white flex flex-col py-4 px-4">
             <h2 className="text-lg font-bold">Channels</h2>
             <ul className="mt-2 space-y-1">
                 {channels && channels.map((channel) => (
-                    <li className="py-2 px-3 bg-gray-700 rounded cursor-pointer" kay={channel.id}>{channel.name}</li>
+                    <li className="py-2 px-3 bg-gray-700 rounded cursor-pointer"
+                        key={channel.id}
+                        onClick={() => handleChannelClick(channel)}
+                    >
+                        {channel.name}
+                    </li>
                 ))}
 
-                <li className="py-2 px-3 hover:bg-gray-700 rounded cursor-pointer" onClick={openModal}>Add Channel</li>
+                <li className="py-2 px-3 hover:bg-gray-700 rounded cursor-pointer" key={"add-channel"} onClick={openModal}>Add Channel</li>
             </ul>
 
             <h2 className="text-lg font-bold mt-4">Direct Messages</h2>

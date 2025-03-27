@@ -16,6 +16,7 @@ export default function SidebarWorkspaces() {
     useEffect(() => {
         if (data) {
             dispatch(setWorkspaces(data.workspaces));
+            dispatch(setActiveWorkspace(data.workspaces[0]))
         }
 
     }, [data, dispatch]);

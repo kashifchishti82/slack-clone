@@ -4,6 +4,7 @@ import {LOGIN_MUTATION} from "@/chat-server/mutations/login";
 import {useRouter} from "next/navigation";
 import Cookies from "js-cookie";
 
+
 export default function Login() {
     const router = useRouter();
     const [email, setEmail] = useState("");
@@ -13,8 +14,6 @@ export default function Login() {
             if (data &&  data.login.token) {
                 const token = data.login.token; // get the token from the response
                 Cookies.set('token', token, { expires: 7, path: '' }) // save the token in the local storage
-                Cookies.set('user', JSON.stringify(data.login.user), { expires: 7, path: '' })
-                //localStorage.setItem('user', JSON.stringify(data.login.user)); // save the user data in the local storage
                 router.push('/chat'); // redirect to the chat page
             } else {
                 console.log(data.login.response)

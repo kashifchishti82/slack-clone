@@ -22,6 +22,10 @@ const GET_CHANNELS = gql`
                 id
                 user_id
             }
+            workspace {
+                id
+                name
+            }
             name
             slug
             updated_at

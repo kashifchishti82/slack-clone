@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import store from '@/store/store';
 import { Provider } from 'react-redux';
-
+import ApolloProviderWrapper from "@/components/ApolloProviderWrapper";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -26,7 +26,9 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
-            {children}
+            <ApolloProviderWrapper>
+                {children}
+            </ApolloProviderWrapper>
         </Provider>
       </body>
     </html>
