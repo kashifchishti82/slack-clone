@@ -40,7 +40,7 @@ export default function MainChat() {
             sendMessage();
         }
     };
-    
+
     const sendMessage = () => {
         const body = {
             workspaceId: activeWorkspace.id,

@@ -9,13 +9,21 @@ services:
   networks:
     - development 
 
- php84:
-  container_name: slack_php84
-  build: ./docker/php8.4/
-  volumes:
-    - ./apiserver/:/var/www/html/:delegated
-  networks:
-    - development
+#  php84:
+#   container_name: slack_php84
+#   build: ./docker/php8.4/
+#   volumes:
+#     - ./apiserver/:/var/www/html/:delegated
+#   networks:
+#     - development
+
+ php84_swoole:
+   container_name: slack_php84_swoole
+   build: ./docker/swoole/
+   volumes:
+     - ./apiserver/:/var/www/html/:delegated
+   networks:
+     - development
 
  mysqldb:
   container_name: slack_clone_mysqldb

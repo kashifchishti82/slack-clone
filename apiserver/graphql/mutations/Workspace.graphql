@@ -24,4 +24,8 @@ extend type Mutation {
         sender_id: ID! @rules(apply: ["required", "string", "max:255"]),
         recipient_id: ID! @rules(apply: ["required", "string", "max:255"])
     ): Message @guard  @field(resolver: "App\\GraphQL\\Mutations\\SendDirectMessageMutation")
+
+    joinWorkspace(
+        workspace_id: ID! @rules(apply: ["required"])
+    ): Workspace @guard @field(resolver: "App\\GraphQL\\Mutation\\JoinWorkspaceMutation")
 }
