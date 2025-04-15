@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && pecl install swoole \
     && docker-php-ext-enable redis swoole\
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql opcache bcmath simplexml xml xmlreader xmlwriter pcntl\
+    && docker-php-ext-install sockets gd pdo pdo_mysql opcache bcmath simplexml xml xmlreader xmlwriter pcntl\
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
@@ -29,15 +29,19 @@ RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
 ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+
+
+COPY apiserver/ /var/www/html/
+
 # Set the working directory
 WORKDIR /var/www/html
 
 #RUN set -x	&& adduser -u 82 -D -S -G www-data www-data
-#COPY ../../apiserver/ /var/www/html/
 
-RUN composer install && npm install 
+
+#RUN composer install && npm install 
 # Expose the PORT 8000 for swoole
 EXPOSE 8000
 
 # Start PHP-FPM
-CMD ["php", "artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=8000" ,"--watch"]
+#CMD ["php", "artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=8000" ,"--watch"]

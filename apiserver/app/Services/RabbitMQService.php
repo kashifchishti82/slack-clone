@@ -63,15 +63,18 @@ class RabbitMQService
 
     public function publishMessage(string $exchangeName, string $routingKey, string $messageBody)
     {
-        $message = new AMQPMessage($messageBody,  ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT] );
+        $message = new AMQPMessage($messageBody,  ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]);
         $this->channel->basic_publish($message, $exchangeName, $routingKey);
     }
 
     public function consumeMessage(string $queueName, callable $callback)
     {
         $this->channel->basic_consume($queueName, '', false, true, false, false, $callback);
+    }
 
-        while ($this->channel->is_consuming()) {
+    public function isConsuming()
+    {
+        while (count($this->channel->callbacks)) {
             $this->channel->wait();
         }
     }

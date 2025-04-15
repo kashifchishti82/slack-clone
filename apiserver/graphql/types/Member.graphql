@@ -1,4 +1,4 @@
-type Member {
+type Member implements Receivable @model {
     id: ID!
     user_id: ID!
     chat_id: ID!

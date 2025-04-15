@@ -1,4 +1,4 @@
-type Channel {
+type Channel implements Receivable @model {
     id: ID!
     name: String!
     slug: String!
@@ -12,4 +12,5 @@ type Channel {
     is_read_only: Boolean
     workspace: Workspace!
     members: [Member!]!
+    messages: [Message]
 }

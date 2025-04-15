@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\IChannelRepository;
+use App\Models\Channel;
 use App\Models\Workspace;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
@@ -10,9 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ChannelRepository implements IChannelRepository
 {
-    public function getAllChannels()
-    {
-    }
+    public function getAllChannels() {}
 
     public function createChannel(array $args)
     {
@@ -21,9 +20,6 @@ class ChannelRepository implements IChannelRepository
         $is_private = Arr::get($args, "is_private");
         $workspace_id = Arr::get($args, "workspaceId");
         $workspace = Workspace::find($workspace_id);
-        if (!$workspace) {
-            return response()->graphql("Workspace not found", [], []);
-        }
         $channel = $workspace->channels()->create([
             'name' => $name,
             'description' => $description,
@@ -35,10 +31,13 @@ class ChannelRepository implements IChannelRepository
     public function getChannelsOfWorkspace($workspace_id)
     {
         $workspace = Workspace::find($workspace_id);
-        if (!$workspace) {
-            return response()->graphql("Workspace not found", [], []);
-        }
         $channels = $workspace->channels;
         return $channels;
+    }
+
+    public function getChannelMessages($channel_id)
+    {
+        $channel = Channel::find($channel_id);
+        return $channel;
     }
 }

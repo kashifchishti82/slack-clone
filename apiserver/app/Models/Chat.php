@@ -15,8 +15,8 @@ class Chat extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function channel()
+    public function receivable()
     {
-        return $this->belongsTo(Channel::class);
+        return $this->morphTo();
     }
 }

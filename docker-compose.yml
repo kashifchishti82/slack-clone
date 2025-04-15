@@ -19,11 +19,14 @@ services:
 
  php84_swoole:
    container_name: slack_php84_swoole
-   build: ./docker/swoole/
+   build:
+      context: . 
+      dockerfile: ./docker/swoole/Dockerfile
    volumes:
-     - ./apiserver/:/var/www/html/:delegated
+     - ./apiserver/:/var/www/html   
    networks:
      - development
+   command: sh -c "composer install && npm i && php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000 --watch"
 
  mysqldb:
   container_name: slack_clone_mysqldb
@@ -72,6 +75,7 @@ services:
 
      volumes:
          - ./docker/rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/conf.d/rabbitmq.conf
+         - ./docker/rabbitmq/data:/var/lib/rabbitmq/mnesia/
      networks:
        - development
 
@@ -87,6 +91,25 @@ services:
        - ./docker/cache:/data
      networks:
        - development
+ livekit:
+    image: livekit/livekit-server:latest
+    restart: always
+    ports:
+      - "7880:7880"    # HTTP for signaling
+      - "7881:7881"    # WebSocket
+      - "50000-60000:50000-60000/udp"  # Media over UDP
+    environment:
+      - LIVEKIT_KEYS=devkey:devsecret
+      - LIVEKIT_API_KEY=devkey
+      - LIVEKIT_API_SECRET=devsecret
+      - LIVEKIT_PORT=7880
+      - LIVEKIT_REDIS_HOST=redis:6379
+    depends_on:
+      - slack_redis_server
+    networks:
+       - development  
+
+
 
 networks:
   development:

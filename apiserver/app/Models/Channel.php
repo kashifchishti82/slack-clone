@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\RabitmqChannelQueues;
+use App\Traits\RabitmqWorkspaceExchange;
 use App\Traits\SluggableTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Channel extends Model
 {
-    use HasUuids, SluggableTrait;
+    use HasUuids, SluggableTrait, RabitmqChannelQueues;
 
     protected $fillable = ['name', 'description', 'is_private'];
 
@@ -19,7 +21,7 @@ class Channel extends Model
 
     public function messages()
     {
-        return $this->hasMany(Message::class);
+        return $this->morphMany(Chat::class, 'receivable');
     }
 
     public function members()

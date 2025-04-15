@@ -22,15 +22,23 @@ class WorkSpaceRepository implements IWorkSpaceRepository
         return $workSpace;
     }
 
-    public function getUserWorkSpaces(String $id)
+    public function getUserWorkSpaces(string $id)
     {
-        return Workspace::join('workspace_user', 'workspace_user.workspace_id', '=', 'workspaces.id')->where('workspace_user.user_id', '=', $id)->get();
+        $data = Workspace::join('workspace_user', 'workspace_user.workspace_id', '=', 'workspaces.id')->where(
+            'workspace_user.user_id',
+            '=',
+            $id
+        )->select('workspaces.*')->get();
+
+        return $data;
     }
-    public function joinWorkspace(String $workSpace_id, String $user_id){
+
+    public function joinWorkspace(string $workSpace_id, string $user_id)
+    {
         $workspace = Workspace::find($workSpace_id);
         $workspace->users()->attach($user_id, ['role' => UserWorkspaceRole::USER->getRole()]);
         return $workspace;
     }
-    }
+
 
 }
