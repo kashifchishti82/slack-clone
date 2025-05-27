@@ -3,6 +3,7 @@ type Workspace {
     name: String!
     description: String
     slug: String!
+    icon: String
     created_at: String!
     updated_at: String!
     channels: [Channel!]! @hasMany

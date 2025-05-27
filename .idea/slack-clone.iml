@@ -127,7 +127,10 @@
       <excludeFolder url="file://$MODULE_DIR$/apiserver/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/apiserver/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/apiserver/vendor/webonyx/graphql-php" />
-      <excludeFolder url="file://$MODULE_DIR$/apiserver/vendor/mll-lab/laravel-graphql-playground" />
+      <excludeFolder url="file://$MODULE_DIR$/apiserver/vendor/php-amqplib/php-amqplib" />
+      <excludeFolder url="file://$MODULE_DIR$/apiserver/vendor/laminas/laminas-diactoros" />
+      <excludeFolder url="file://$MODULE_DIR$/apiserver/vendor/laravel/octane" />
+      <excludeFolder url="file://$MODULE_DIR$/apiserver/vendor/symfony/psr-http-message-bridge" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -76,6 +76,10 @@ return [
         'null' => [
             'driver' => 'null',
         ],
+        'redis' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+        ],
 
     ],
 

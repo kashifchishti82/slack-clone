@@ -13,12 +13,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('chats', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();
             $table->foreignIdFor(\App\Models\User::class);
-            $table->foreignIdFor(\App\Models\Channel::class);
+            $table->uuidMorphs('receivable');
             $table->jsonb('message');
             $table->integer('total_replies')->default(0);
-            $table->foreignIdFor(Chat::class);
+            $table->foreignIdFor(Chat::class)->nullable();
             $table->timestamps();
         });
     }

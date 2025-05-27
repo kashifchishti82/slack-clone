@@ -12,20 +12,6 @@ class WorkSpaceRepository implements IWorkSpaceRepository
 
     public function createWorkSpace(string $name, string $description)
     {
-        $validator = Validator::make(
-            [
-                'name' => $name,
-                'description' => $description
-            ],
-            [
-                'name' => ['required', 'string', 'max:255'],
-                'description' => ['required', 'string', 'max:255'],
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->graphql("Validation Error", [], $validator->errors());
-        }
         $workSpace = new Workspace();
         $workSpace->name = $name;
         $workSpace->description = $description;
@@ -33,7 +19,26 @@ class WorkSpaceRepository implements IWorkSpaceRepository
         $workSpace->save();
         $workSpace->users()->attach(auth()->user(), ['role' => UserWorkspaceRole::ADMIN->getRole()]);
 
-        return response()->graphql("Workspace created", $workSpace);
+        return $workSpace;
     }
+
+    public function getUserWorkSpaces(string $id)
+    {
+        $data = Workspace::join('workspace_user', 'workspace_user.workspace_id', '=', 'workspaces.id')->where(
+            'workspace_user.user_id',
+            '=',
+            $id
+        )->select('workspaces.*')->get();
+
+        return $data;
+    }
+
+    public function joinWorkspace(string $workSpace_id, string $user_id)
+    {
+        $workspace = Workspace::find($workSpace_id);
+        $workspace->users()->attach($user_id, ['role' => UserWorkspaceRole::USER->getRole()]);
+        return $workspace;
+    }
+
 
 }

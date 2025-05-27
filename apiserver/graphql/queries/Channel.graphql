@@ -1,4 +1,7 @@
 type Query {
-    channel(id: ID!): Channel @find
-    channels: [Channel!]! @paginate(defaultCount: 10)
+    channel(id: ID!): Channel @find @guard
+    channels: [Channel!]! @paginate(defaultCount: 10) @guard
+    channelMessages(channel_id: ID! @rules(apply: ["required"])): Channel!
+        @guard
+        @field(resolver: "App\\GraphQL\\Query\\GetChannelsMessagesQuery")
 }

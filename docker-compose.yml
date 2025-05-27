@@ -1,0 +1,116 @@
+services:
+  apache:
+    container_name: slack_clone_apache
+    build: ./docker/apache/
+    ports:
+      - "80:80"
+    volumes:
+      - ./apiserver/:/var/www/html/
+    networks:
+      - development
+
+  #  php84:
+  #   container_name: slack_php84
+  #   build: ./docker/php8.4/
+  #   volumes:
+  #     - ./apiserver/:/var/www/html/:delegated
+  #   networks:
+  #     - development
+
+  php84_swoole:
+    container_name: slack_php84_swoole
+    build:
+      context: .
+      dockerfile: ./docker/swoole/Dockerfile
+    volumes:
+      - ./apiserver/:/var/www/html
+    networks:
+      - development
+    command: sh -c "composer install && npm i && php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000 --watch"
+
+  mysqldb:
+    container_name: slack_clone_mysqldb
+    image: mysql:8.4.1
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'slack'
+      MYSQL_USER: 'slack'
+      MYSQL_PASSWORD: 'slack'
+      MYSQL_ROOT_PASSWORD: '1q2w3e4r5t'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/mysql/:/var/lib/mysql
+      - ./docker/mysql/conf/:/etc/mysql
+    networks:
+      - development
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: slack_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysqldb
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8081:80" # Map phpMyAdmin to host port 8081
+    depends_on:
+      - mysqldb
+    networks:
+      - development
+
+  rabbitmq:
+    build: ./docker/rabbitmq/
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
+      - "15680:15680"
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: 1q2w3e4r5t
+
+    volumes:
+      - ./docker/rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/conf.d/rabbitmq.conf
+      - ./docker/rabbitmq/data:/var/lib/rabbitmq/mnesia/
+    networks:
+      - development
+
+  slack_redis_server:
+    container_name: slack_redis_server
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - ./docker/cache:/data
+    networks:
+      - development
+#  livekit:
+#     image: livekit/livekit-server:latest
+#     restart: always
+#     ports:
+#       - "7880:7880"    # HTTP for signaling
+#       - "7881:7881"    # WebSocket
+#       - "10000-20000:10000-20000/udp"  # Media over UDP
+#     environment:
+#       - LIVEKIT_UDP_PORTS=10000-20000
+#       - LIVEKIT_KEYS=devkey:devsecret
+#       - LIVEKIT_API_KEY=devkey
+#       - LIVEKIT_API_SECRET=devsecret
+#       - LIVEKIT_PORT=7880
+#       - LIVEKIT_REDIS_HOST=slack_redis_server:6379
+#     depends_on:
+#       - slack_redis_server
+#     networks:
+#        - development  
+
+
+
+networks:
+  development:
+    name: slack_clone_development

@@ -1,47 +1,41 @@
-"use client"
- import { useState, useEffect } from "react"
-import {useQuery} from "@apollo/client";
+"use client";
+
+import { useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import ApolloProviderWrapper from "@/components/ApolloProviderWrapper";
+import ChatSidebar from "@/components/ChatSidebar";
+import ChatMain from "@/components/MainChat";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/userSlice";
+import { GET_AUTH_USER } from "@/chat-server/quries/User";
+import socketService from "@/clients/socket-client";
 
 export default function Page() {
-    [messages, setMessages] = useState([])
-    const { loading, error, channels } = useQuery(GET_MESSAGES)
+  const dispatch = useDispatch();
+  const { data } = useQuery(GET_AUTH_USER);
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      dispatch(setUser(data.me));
+    }
+  }, [data]);
 
-    return (
-        <div className="bg-gray-100">
+  useEffect(() => {
+    // Connect to the server
+    socketService.connect();
 
-            <div className="flex h-screen">
+    return () => {
+      // Cleanup on unmount
+      socketService.disconnect();
+    };
+  }, []);
+  return (
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
+      <ChatSidebar />
 
-                <div className="w-64 bg-gray-800 text-white p-4">
-                    <h2 className="text-lg font-bold">Channels</h2>
-                    <ul>
-                        <li className="mt-2"># General</li>
-                        <li className="mt-2"># Random</li>
-                    </ul>
-                </div>
-
-                <div className="flex-1 flex flex-col">
-                    <div className="flex-1 p-4 overflow-y-scroll">
-                        <template x-for="message in messages" key="message.id">
-                            <div className="flex items-start space-x-2">
-                                <div className="w-10 h-10 bg-gray-500 rounded-full"></div>
-                                <div>
-                                    <strong x-text="message.user_id"></strong>
-                                    <p x-text="message.message" className="bg-white p-2 rounded shadow"></p>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-
-                <div className="p-4 bg-white border-t">
-                    <input x-model="message" type="text" className="w-full p-2 border rounded"
-                           placeholder="Type a message..."/>
-                    <button class="bg-blue-500 text-white p-2 mt-2">Send
-                    </button>
-                </div>
-            </div>
-        </div>
-
-
-    )
+      {/* Main Chat Area */}
+      <ChatMain />
+    </div>
+  );
 }

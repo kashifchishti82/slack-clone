@@ -7,10 +7,10 @@ use App\Models\Channel;
 
 class CreateChannelMutation
 {
-    public function __construct(IChannelRepository $channelRepository){
-        $this->repository = $channelRepository;
-    }
-    public function __invoke($_, array $args){
-        $this->repository->createChannel($args);
+    public function __construct(private IChannelRepository $repository) {}
+
+    public function __invoke($_, array $args)
+    {
+        return $this->repository->createChannel($args);
     }
 }

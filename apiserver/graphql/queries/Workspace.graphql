@@ -1,0 +1,14 @@
+extend type Query {
+    workspaces: [Workspace!]! @field(resolver: "App\\GraphQL\\Query\\GetWorkspacesQuery") @guard
+
+    workspace(
+        id: ID! @rules(apply: ["required"])
+    ): Workspace @find @guard
+
+
+    WorkspaceChannels(
+        workspace_id: ID! @rules(apply: ["required"])
+    ): [Channel!]! @guard @field(resolver: "App\\GraphQL\\Query\\GetChannelsOfWorkspaceQuery")
+
+
+}

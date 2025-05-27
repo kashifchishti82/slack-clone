@@ -1,4 +1,38 @@
 extend type Mutation {
-    createWorkspace(name: String!, description: String!): Workspace! @guard @field(resolver: "App\\GraphQL\\Mutations\\CreateWorkspaceMutation")
-    createChannel(name: String!, workspaceId: ID!): Channel! @guard @field(resolver: "App\\GraphQL\\Mutations\\CreateChannelMutation")
+    createWorkspace(
+        name: String! @rules(apply: ["required", "string", "max:255"])
+        description: String!
+    ): Workspace!
+        @guard
+        @field(resolver: "App\\GraphQL\\Mutations\\CreateWorkspaceMutation")
+
+    createChannel(
+        name: String! @rules(apply: ["required", "string", "max:255"])
+        workspaceId: ID! @rules(apply: ["required", "string", "max:255"])
+        is_default: Boolean
+        is_private: Boolean! @rules(apply: ["required", "boolean"])
+        description: String @rules(apply: ["nullable", "string", "max:255"])
+    ): Channel!
+        @guard
+        @field(resolver: "App\\GraphQL\\Mutations\\CreateChannelMutation")
+
+    sendMessage(
+        content: String! @rules(apply: ["required", "string"])
+        sender_id: ID! @rules(apply: ["required", "string", "max:255"])
+        channel_id: ID! @rules(apply: ["required", "string", "max:255"])
+    ): Message
+        @guard
+        @field(resolver: "App\\GraphQL\\Mutations\\SendMessageMutation")
+
+    sendDirectMessage(
+        content: String! @rules(apply: ["required", "string"])
+        sender_id: ID! @rules(apply: ["required", "string", "max:255"])
+        recipient_id: ID! @rules(apply: ["required", "string", "max:255"])
+    ): Message
+        @guard
+        @field(resolver: "App\\GraphQL\\Mutations\\SendDirectMessageMutation")
+
+    joinWorkspace(workspace_id: ID! @rules(apply: ["required"])): Workspace
+        @guard
+        @field(resolver: "App\\GraphQL\\Mutations\\JoinWorkspaceMutation")
 }

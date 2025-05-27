@@ -3,10 +3,10 @@ extend type Query {
     user(
         id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
         email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
-    ): User @find
+    ): User @find @guard
 
     "List multiple users."
     members(
         name: String @where(operator: "like")
-    ): [User!]! @paginate(defaultCount: 10)
+    ): [User!]! @paginate(defaultCount: 10) @guard
 }

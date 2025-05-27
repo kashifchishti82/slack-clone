@@ -1,0 +1,5 @@
+type Subscription {
+    messageReceived(channel_id: ID! ): Message
+    directMessageReceived(recipient_id: ID!): Message
+    newExchangeCreated: Workspace
+}

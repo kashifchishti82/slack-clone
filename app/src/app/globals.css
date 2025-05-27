@@ -18,4 +18,39 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  color: #000000;
+}
+
+/* Add this to your global styles or a custom CSS file */
+.scrollbar-custom {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #4A4A4A #2d2d2d; /* Firefox: thumb and track color */
+}
+
+/* For Webkit browsers (Chrome, Safari, etc.) */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #4A4A4A;
+  border-radius: 9999px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background-color: #2d2d2d;
+  border-radius: 9999px;
+}
+
+/* Smooth scroll behavior */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+button, input, optgroup, select, textarea {
+  color: #000000;
+}
+input[type="button"].disabled, input[type="reset"].disabled, input[type="submit"].disabled, button[disabled], input[type="button"][disabled], input[type="reset"][disabled], input[type="submit"][disabled] {
+  background-color: dimgrey;
+  color: linen;
+  opacity: 1;
 }

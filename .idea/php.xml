@@ -131,7 +131,10 @@
       <path value="$PROJECT_DIR$/apiserver/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/apiserver/vendor/nette/utils" />
       <path value="$PROJECT_DIR$/apiserver/vendor/mll-lab/laravel-graphiql" />
-      <path value="$PROJECT_DIR$/apiserver/vendor/mll-lab/laravel-graphql-playground" />
+      <path value="$PROJECT_DIR$/apiserver/vendor/php-amqplib/php-amqplib" />
+      <path value="$PROJECT_DIR$/apiserver/vendor/laminas/laminas-diactoros" />
+      <path value="$PROJECT_DIR$/apiserver/vendor/symfony/psr-http-message-bridge" />
+      <path value="$PROJECT_DIR$/apiserver/vendor/laravel/octane" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2">
